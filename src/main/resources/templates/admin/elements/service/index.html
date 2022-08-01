@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layouts/app.html}"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+<title>Quản lý dịch vụ hệ thống</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-8">
+						<h4 class="card-title mb-0">Quản lý dịch vụ</h4>
+					</div>
+					<div class="col-4 text-right">
+						<a th:href="@{/admin/services/create}"
+							class="btn btn-primary btn-sm"><i class="fas fa-plus"></i>
+							Tạo mới</a>
+					</div>
+				</div>
+
+				<form th:action="@{/admin/services}" method="GET"
+					class="form-inline mt-2">
+					<div class="form-group">
+						<input type="text" name="searchText" id="searchText"
+							class="form-control" th:value="${searchText}"
+							placeholder="Nhập tên tìm kiếm...">
+					</div>
+
+					<button type="submit" class="btn btn-primary btn-same-select ml-2">Tìm
+						kiếm</button>
+				</form>
+
+				<div class="mt-4">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<td><strong>STT</strong></td>
+									<td><strong>Hình ảnh</strong></td>
+									<td><strong>Tên</strong></td>
+									<td><strong>Tạo lúc</strong></td>
+									<td><strong>Trạng thái</strong></td>
+									<td><strong>Hành động</strong></td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="service : ${services.page}">
+									<td th:text="${service.id}"></td>
+									<td><img th:src="${'/file' + service.image}"
+										th:alt="${service.title}" width="30" height="30" /></td>
+									<td><a th:href="@{'/services/'+ ${service.id}}" th:text="${service.title}"></a></td>
+									<td th:text="${#dates.format(service.createdAt, 'dd-MM-yyyy')}"></td>
+									<td><span th:if="${service.status}"
+										class="badge badge-success"> Hoạt động </span> <span
+										th:unless="${service.status}" class="badge badge-success">Bản
+											nháp</span></td>
+									<td>
+										<div class="btn-group btn-group-sm" role="group"
+											aria-label="Hành động">
+											<a th:href="@{/admin/services/{id}(id=${service.id})}"
+												data-toggle="tooltip" data-placement="top" title="Edit"
+												class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+											<a style="margin-left: 2px;" data-toggle="modal"
+												th:attr="data-target=${'#deleteModal' + service.id}"
+												class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i>
+											</a>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal fade" th:each="service : ${services.page}"
+						th:attr="id=${'deleteModal' + service.id}" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Modal</h5>
+									<button class="close" type="button" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">×</span>
+									</button>
+								</div>
+								<span class="modal-body"
+									th:text="'Bạn có muốn xóa dịch vụ ' + ${service.title} + '?'"></span>
+								<div class="modal-footer">
+									<button class="btn btn-secondary" type="button"
+										data-dismiss="modal">Hủy</button>
+									<a class="btn btn-primary"
+										th:href="@{/admin/services/delete/{id}(id=${service.id})}">Xác
+										nhận</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="d-flex justify-content-end">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination text-right"
+								th:if="${services.page.totalPages > 0}">
+								<li class="page-item"
+									th:classappend="${!services.paging.isPrevEnabled()? 'disabled' : ''}">
+									<a class="page-link"
+									th:href="@{'?current=' + ${services.paging.current - 1}}"
+									tabindex="-1">Trước</a>
+								</li>
+								<th:block th:each="item : ${services.paging.getItems()}">
+									<li class="page-item"
+										th:classappend="${item.index == services.paging.current? 'active' : ''}"
+										th:if="${item.pageItemType.name() == 'PAGE'}"><a
+										class="page-link" th:href="@{'?current=' + ${item.index}}"
+										th:text="${item.index}"></a></li>
+									<li class="page-item disabled"
+										th:if="${item.pageItemType.name() == 'DOTS'}"><a
+										class="page-link" href="#">...</a></li>
+								</th:block>
+								<li class="page-item"
+									th:classappend="${!services.paging.isNextEnabled()? 'disabled' : ''}">
+									<a class="page-link"
+									th:href="@{'?current=' + ${services.paging.current + 1}}">Tiếp</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

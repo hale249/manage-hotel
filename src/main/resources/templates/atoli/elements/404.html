@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{atoli/layouts/app.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <meta charset="UTF-8">
+    <title>404 không tìm thấy trang</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="inner-banner inner-bg9">
+        <div class="container">
+            <div class="inner-title">
+                <ul>
+                    <li>
+                        <a th:href="@{/}">Trang chủ</a>
+                    </li>
+                    <li><i class="bx bx-chevron-right"></i></li>
+                    <li>404 không tìm thấy trang!</li>
+                </ul>
+                <h3>404 không tìm thấy trang!</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="error-area">
+        <div class="d-table">
+            <div class="d-table-cell">
+                <div class="error-content">
+                    <h1>4 <span>0</span> 4</h1>
+                    <h3>Oops! Không tìm thấy trang</h3>
+                    <p>Trang bạn đang tìm kiếm có thể đã bị xóa có tên của nó đã thay đổi hoặc tạm thời không có
+                        sẵn.</p>
+                    <a th:href="@{/}" class="default-btn btn-bg-three">
+                        Trở về trang chủ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layouts/app.html}"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+<meta charset="UTF-8">
+<title>Tạo mới lịch</title>
+
+<th:block layout:fragment="css">
+	<link
+		href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+		rel="stylesheet" />
+</th:block>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="card">
+			<form th:action="@{/admin/booking/create}" method="post" class="form"
+				th:object="${booking}" enctype="multipart/form-data">
+				<div class="card-body">
+					<div style="display: none" class="form-group">
+						<input th:value="${booking.id}" class="form-control"
+							th:text="${booking.id}" name="id" id="id">
+					</div>
+					<h4 class="card-title mb-0">Chỉnh sửa lịch đặt phòng</h4>
+					<hr>
+
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label" for="name">Tên
+							người đặt phòng</label>
+
+						<div class="col-md-10">
+							<input th:field="*{name}" th:value="${booking.name}" type="text"
+								class="form-control" id="name"
+								placeholder="Nhập tên người đặt phòng...">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label" for="email">Email</label>
+
+						<div class="col-md-10">
+							<input th:field="*{email}" th:value="${booking.email}"
+								type="text" required class="form-control" id="email">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label">Đặt lúc</label>
+						<div class="input-group col-md-10">
+							<input th:field="*{dateCheckin}" type="date" required
+								class="form-control" /> <span class="input-group-addon"></span>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label">Trả phòng</label>
+						<div class="col-md-10">
+							<input th:type="date" th:field="*{dateCheckout}" type="date"
+								required class="form-control" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label">Số lượng người</label>
+						<div class="col-md-10">
+							<input th:field="*{numberOfPerson}" type="text" required
+								class="form-control" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label">Loại phòng</label>
+						<div class="col-md-10">
+							<select th:field="*{roomType}" class="form-control">
+								<option selected value="Cơ bản">Cơ bản</option>
+								<option value="Cao cấp">Cao cấp</option>
+							</select>
+						</div>
+
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label">Trạng thái</label>
+						<div class="col-md-10">
+							<select th:field="*{status}" class="form-control">
+								<option selected value="Chưa nhận phòng">Chưa nhận
+									phòng</option>
+								<option value="Đã nhận phòng">Đã nhận phòng</option>
+								<option value="Đã rời phòng">Đã rời phòng</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label">Trạng thái
+							thanh toán</label>
+						<div class="col-md-10">
+							<select th:field="*{payment}" class="form-control">
+								<option selected value="Chưa thanh toán">Chưa thanh
+									toán</option>
+								<option value="Đã thanh toán">Đã thanh toán</option>
+							</select>
+						</div>
+					</div>
+
+				</div>
+				<div class="card-footer">
+					<div class="row">
+						<div class="col">
+							<a th:href="@{/admin/booking}" class="btn btn-danger btn-sm">Trở lại</a>
+						</div>
+
+						<div class="col text-right">
+							<button type="submit" class="btn btn-success btn-sm">
+								Lưu</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<th:block layout:fragment="js">
+		<script
+			src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+		<script>
+			$(".js-example-tokenizer").select2({
+				tags : true,
+				tokenSeparators : [ ',', ' ' ]
+			})
+		</script>
+	</th:block>
+</body>
+</html>

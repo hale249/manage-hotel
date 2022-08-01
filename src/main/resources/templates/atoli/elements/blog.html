@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{atoli/layouts/app.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <meta charset="UTF-8">
+    <title>Tin tức</title>
+    <style>
+        .article-content {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="inner-banner inner-bg5">
+        <div class="container">
+            <div class="inner-title">
+                <ul>
+                    <li>
+                        <a th:href="@{/}">Trang chủ</a>
+                    </li>
+                    <li><i class="bx bx-chevron-right"></i></li>
+                    <li>Tin tức</li>
+                </ul>
+                <h3>Tin tức</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="blog-area pt-100 pb-70">
+        <div class="container">
+            <div class="section-title text-center">
+                <span class="sp-color">Tin tức</span>
+                <h2>Danh sách tin tức mới nhất của khách sạn</h2>
+            </div>
+            <div class="row pt-45">
+                <th:block th:if="${blogAll.size() > 0}" >
+                    <th:block  th:each="v : ${blogAll}" >
+                        <div class="col-lg-4 col-md-6">
+                            <div class="blog-item">
+                                <a th:href="@{'/blog/'+${v.id}}">
+                                    <img th:src="${v.image}" alt="Images" />
+                                </a>
+                                <div class="content">
+                                    <ul>
+                                        <li
+                                                th:text="${#temporals.format(v.getCreatedAt(),'EEE, d MMM yyyy')}"
+                                             ></li>
+<!--                                        <li><i class="bx bx-user"></i>29K</li>-->
+                                        <li><i class="bx bx-message-alt-dots"></i>
+                                            <span th:text="${v.totalComment}"></span>
+                                        </li>
+                                    </ul>
+                                    <h3>
+                                        <a th:href="@{'/blog/'+${v.id}}" th:text="${v.title}"
+                                        ></a
+                                        >
+                                    </h3>
+                                    <p class="limit-text" th:utext="${v.subTitle}">
+
+                                    </p>
+                                    <a th:href="@{'/blog/'+${v.id}}" class="read-btn"> Xem thêm </a>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+
+                </th:block>
+<!--                <div class="col-lg-4 col-md-6">
+                    <div class="blog-item">
+                        <a href="blog-details.html">
+                            <img th:src="@{/plugins/atoli/assets/img/blog/blog-item-img1.jpg}" alt="Images" />
+                        </a>
+                        <div class="content">
+                            <ul>
+                                <li>October 01, 2020</li>
+                                <li><i class="bx bx-user"></i>29K</li>
+                                <li><i class="bx bx-message-alt-dots"></i>15K</li>
+                            </ul>
+                            <h3>
+                                <a href="blog-details.html"
+                                >Hotel Management is the Best Policy</a
+                                >
+                            </h3>
+                            <p>
+                                This is one of the best & quality full hotels in the world
+                                that will help you to make an excellent study market.
+                            </p>
+                            <a href="blog-details.html" class="read-btn"> Read More </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-item">
+                        <a href="blog-details.html">
+                            <img th:src="@{/plugins/atoli/assets/img/blog/blog-item-img2.jpg}" alt="Images" />
+                        </a>
+                        <div class="content">
+                            <ul>
+                                <li>October 07, 2020</li>
+                                <li><i class="bx bx-user"></i>22K</li>
+                                <li><i class="bx bx-message-alt-dots"></i>24K</li>
+                            </ul>
+                            <h3>
+                                <a href="blog-details.html"
+                                >3d Hotel Models Have an Important Model</a
+                                >
+                            </h3>
+                            <p>
+                                This is one of the best & quality full hotels in the world
+                                that will help you to make an excellent study market.
+                            </p>
+                            <a href="blog-details.html" class="read-btn"> Read More </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-item">
+                        <a href="blog-details.html">
+                            <img th:src="@{/plugins/atoli/assets/img/blog/blog-item-img3.jpg}" alt="Images" />
+                        </a>
+                        <div class="content">
+                            <ul>
+                                <li>October 17, 2020</li>
+                                <li><i class="bx bx-user"></i>27K</li>
+                                <li><i class="bx bx-message-alt-dots"></i>39K</li>
+                            </ul>
+                            <h3>
+                                <a href="blog-details.html"
+                                >Hotel Management Has a Good Future Era</a
+                                >
+                            </h3>
+                            <p>
+                                This is one of the best & quality full hotels in the world
+                                that will help you to make an excellent study market.
+                            </p>
+                            <a href="blog-details.html" class="read-btn"> Read More </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-item">
+                        <a href="blog-details.html">
+                            <img th:src="@{/plugins/atoli/assets/img/blog/blog-item-img4.jpg}" alt="Images" />
+                        </a>
+                        <div class="content">
+                            <ul>
+                                <li>October 19, 2020</li>
+                                <li><i class="bx bx-user"></i>27K</li>
+                                <li><i class="bx bx-message-alt-dots"></i>39K</li>
+                            </ul>
+                            <h3>
+                                <a href="blog-details.html"
+                                >We Can Easily Make an Ideal Management</a
+                                >
+                            </h3>
+                            <p>
+                                This is one of the best & quality full hotels in the world
+                                that will help you to make an excellent study market.
+                            </p>
+                            <a href="blog-details.html" class="read-btn"> Read More </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-item">
+                        <a href="blog-details.html">
+                            <img th:src="@{/plugins/atoli/assets/img/blog/blog-item-img5.jpg}" alt="Images" />
+                        </a>
+                        <div class="content">
+                            <ul>
+                                <li>October 19, 2020</li>
+                                <li><i class="bx bx-user"></i>47K</li>
+                                <li><i class="bx bx-message-alt-dots"></i>69K</li>
+                            </ul>
+                            <h3>
+                                <a href="blog-details.html"
+                                >Hotel Management Has Made a New Goal</a
+                                >
+                            </h3>
+                            <p>
+                                This is one of the best & quality full hotels in the world
+                                that will help you to make an excellent study market.
+                            </p>
+                            <a href="blog-details.html" class="read-btn"> Read More </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-item">
+                        <a href="blog-details.html">
+                            <img th:src="@{/plugins/atoli/assets/img/blog/blog-item-img6.jpg}" alt="Images" />
+                        </a>
+                        <div class="content">
+                            <ul>
+                                <li>October 19, 2020</li>
+                                <li><i class="bx bx-user"></i>77K</li>
+                                <li><i class="bx bx-message-alt-dots"></i>89K</li>
+                            </ul>
+                            <h3>
+                                <a href="blog-details.html"
+                                >Hotel Management is the Best Policy</a
+                                >
+                            </h3>
+                            <p>
+                                This is one of the best & quality full hotels in the world
+                                that will help you to make an excellent study market.
+                            </p>
+                            <a href="blog-details.html" class="read-btn"> Read More </a>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="col-lg-12 col-md-12">
+                    <div class="pagination-area">
+                        <th:block th:if="${currentPage > 1 ? 'page-item' : 'page-item disabled'}" >
+                            <a th:href="@{'/blog?current='+${currentPage - 1 }}" class="prev page-numbers">
+                                <i class="bx bx-chevrons-left"></i>
+                            </a>
+                        </th:block>
+                        <th:block th:if="${totalPages > 3 ? 'page-item' : 'page-item disabled'}" class="pagination"
+                        >
+                            <th:block
+                                    th:each="i : ${#numbers.sequence(1,totalPages)}">
+                                <th:block th:if="${i == currentPage}">
+                                    <span class="page-numbers current" aria-current="page" th:text="${currentPage}"></span>
+                                </th:block>
+
+                                <th:block th:unless="${i == currentPage}">
+                                    <a th:href="@{'/blog?current='+${i }}" th:text="${i}" class="page-numbers"></a>
+                                </th:block>
+
+                            </th:block>
+                        </th:block>
+                        <a th:href="@{'/blog?current='+${currentPage + 1}}" class="next page-numbers">
+                            <i class="bx bx-chevrons-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

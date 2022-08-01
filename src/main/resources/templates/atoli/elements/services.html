@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{atoli/layouts/app.html}"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+<meta charset="UTF-8">
+<title>Trang chủ</title>
+<style>
+.sort-text {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="inner-banner inner-bg8">
+			<div class="container">
+				<div class="inner-title">
+					<ul>
+						<li><a th:href="@{/}">Trang chủ</a></li>
+						<li><i class="bx bx-chevron-right"></i></li>
+						<li>Dịch vụ</li>
+					</ul>
+					<h3>Danh sách dịch vụ</h3>
+				</div>
+			</div>
+		</div>
+
+		<div class="services-area-three pt-100 pb-70">
+			<div class="container">
+				<div class="section-title text-center">
+					<span class="sp-color">Danh sách dịch vụ</span>
+					<h2>Dịch vụ của chúng tôi trên thị trường toàn cầu để đặt chỗ
+						của khách hàng</h2>
+				</div>
+				<div class="row pt-45">
+					<th:block th:if="${services.page.totalPages > 0}"
+						th:each="service : ${services.page}">
+
+						<div class="col-lg-6 col-md-6">
+							<div class="service-item-two">
+								<i th:class="${service.icon}"></i>
+								<div class="content">
+									<h3>
+										<a th:href="${'/services/' + service.id }"
+											th:text="${service.title}"></a>
+									</h3>
+									<p th:text="${service.sortDescription}"></p>
+									<a th:href="${'/services/' + service.id }" class="read-btn">Xem
+										thêm</a>
+								</div>
+							</div>
+						</div>
+					</th:block>
+					<div class="col-lg-12 col-md-12">
+
+						<div class="pagination-area"
+							th:if="${services.page.totalPages > 0}">
+							<a th:href="@{'?current=' + ${services.paging.current - 1}}"
+								class="prev page-numbers"
+								th:classappend="${!services.paging.isPrevEnabled()? 'disabled' : ''}">
+								<i class="bx bx-chevrons-left"></i>
+							</a>
+							<th:block th:each="item : ${services.paging.getItems()}">
+								<span class="page-numbers"
+									th:classappend="${item.index == services.paging.current? 'current' : ''}"
+									th:if="${item.pageItemType.name() == 'PAGE'}"> <a
+									th:href="@{'?current=' + ${item.index}}"
+									th:text="${item.index}"></a></span>
+								<span class="page-numbers disabled"
+									th:if="${item.pageItemType.name() == 'DOTS'}"><a>...</a></span>
+							</th:block>
+
+							<a th:href="@{'?current=' + ${services.paging.current + 1}}"
+								class="next page-numbers"
+								th:classappend="${!services.paging.isNextEnabled()? 'disabled' : ''}">
+								<i class="bx bx-chevrons-right"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="room-area pt-100 pb-70 section-bg">
+			<div class="container">
+				<div class="section-title text-center">
+					<span class="sp-color">Phòng liên quan</span>
+					<h2>Danh sách phòng liên quan</h2>
+				</div>
+				<div class="row pt-45">
+					<th:block th:if="${roomRamdom.size() > 0}"
+						th:each="i : ${roomRamdom}">
+						<div class="col-lg-6">
+							<div class="room-card-two">
+								<div class="row align-items-center">
+									<div class="col-lg-5 col-md-4 p-0">
+										<div class="room-card-img">
+											<a th:href="@{'/rooms/'+${i.id}}"> <img
+												th:src="${i.image}" alt="Images" />
+											</a>
+										</div>
+									</div>
+									<div class="col-lg-7 col-md-8 p-0">
+										<div class="room-card-content">
+											<h3>
+												<a th:text="${i.name}" th:href="@{'/rooms/'+${i.id}}"></a>
+											</h3>
+
+											<th:block th:if="${i.getRoomDetails().size() > 0}"
+												th:each="d : ${i.getRoomDetails()}">
+												<span th:text="${d.price}+' / Đêm(' +${d.getRoomType()}+')'">
+												</span>
+												</br>
+											</th:block>
+
+											<div class="rating">
+												<i class="bx bxs-star"></i> <i class="bx bxs-star"></i> <i
+													class="bx bxs-star"></i> <i class="bx bxs-star"></i> <i
+													class="bx bxs-star"></i>
+											</div>
+
+											<ul>
+												<li><i class="bx bx-user"></i> <span
+													th:text="${i.numberAmount}+ ' Người'"> </span></li>
+												<li><i class="bx bx-expand"></i> <span
+													th:text="${i.roomSize}"> </span></li>
+											</ul>
+											<ul>
+												<li><i class="bx bx-show-alt"></i> <span
+													th:text="${i.location}"> </span></li>
+												<li><i class="bx bxs-hotel"></i> <span
+													th:text="${i.bedSize} + ' / Twin'"> </span></li>
+											</ul>
+											<a th:href="@{'/rooms/'+${i.id}}" class="book-more-btn">
+												Đặt phòng ngay </a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</th:block>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

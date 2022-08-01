@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{atoli/layouts/app.html}"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+<meta charset="UTF-8">
+<title>Order</title>
+<style type="text/css">
+body {
+	background: #eee;
+}
+
+.panel-order .row {
+	border-bottom: 1px solid #ccc;
+}
+
+.panel-order .row:last-child {
+	border: 0px;
+}
+
+.panel-order .row .col-md-1 {
+	text-align: center;
+	padding-top: 15px;
+}
+
+.panel-order .row .col-md-1 img {
+	width: 50px;
+	max-height: 50px;
+}
+
+.panel-order .row .row {
+	border-bottom: 0;
+}
+
+.panel-order .row .col-md-11 {
+	border-left: 1px solid #ccc;
+}
+
+.panel-order .row .row .col-md-12 {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+.panel-order .row .row .col-md-12:last-child {
+	font-size: 11px;
+	color: #555;
+	background: #efefef;
+}
+
+.panel-order .btn-group {
+	margin: 0px;
+	padding: 0px;
+}
+
+.panel-order .panel-body {
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+.panel-order .panel-deading {
+	margin-bottom: 0;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container bootdey">
+			<div class="panel panel-default panel-order">
+				<div class="panel-heading">
+					<strong>Order history</strong>
+				</div>
+
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-1">
+							<img src="https://static.thenounproject.com/png/1190348-200.png"
+								class="media-object img-thumbnail" />
+						</div>
+						<div class="col-md-11">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="pull-right">
+										<label class="label label-danger"><strong>Phòng
+												đang đặt</strong></label>
+									</div>
+									<div th:if="${bookings.size() > 0}"
+										th:each="booking : ${bookings}">
+										<strong>Phòng đặt: </strong> <span
+											th:text="${booking.room.name}"></span> <br /> <strong>Số
+											tiền: </strong>[[${#numbers.formatDecimal(booking.price, 0, 'COMMA',
+										2, 'POINT')}]] vnđ<br /> <strong>Loại phòng</strong> <span>[[${booking.roomType}]]</span><br />
+										<div class="col-md-12">
+											Ngày bắt đầu: [[${#dates.format(booking.dateCheckin,
+											'dd-MM-yyyy')}]] <br /> Ngày kết thúc:
+											[[${#dates.format(booking.dateCheckout, 'dd-MM-yyyy')}]]
+										</div>
+										<a style="margin-left: 2px;" data-toggle="modal"
+											class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i>
+										</a>
+									</div>
+									<div th:if="${bookings.size() <= 0}">Không có lịch sử đặ phòng</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-1">
+							<img src="data:image/png;base64,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"
+								class="media-object img-thumbnail" />
+						</div>
+
+						<div class="col-md-11">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="pull-right">
+										<label class="label label-danger"><strong>Lịch sử phòng đã đặt</strong></label>
+									</div>
+									<div th:if="${sucessBookings.size() > 0}"
+										th:each="booking : ${sucessBookings}">
+										<strong>Phòng đặt: </strong> <span
+											th:text="${booking.room.name}"></span> <br /> <strong>Số
+											tiền: </strong> [[${booking.price}]] vnđ <br /> <strong>Loại
+											phòng: </strong> <span>[[${#numbers.formatDecimal(booking.price,
+											0, 'COMMA', 2, 'POINT')}]] vnđ</span><br />
+										<div class="col-md-12">
+											Ngày bắt đầu: [[${#dates.format(booking.dateCheckin,
+											'dd-MM-yyyy')}]] <br /> Ngày kết thúc:
+											[[${#dates.format(booking.dateCheckout, 'dd-MM-yyyy')}]]
+										</div>
+									</div>
+									<div th:if="${sucessBookings.size() <= 0}">Không có lịch sử đặ phòng</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

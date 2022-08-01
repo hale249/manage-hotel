@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "app.file.location",
+      "type": "java.lang.String",
+      "description": "Description for app.file.location."
+  }
+] }

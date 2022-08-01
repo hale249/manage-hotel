@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layouts/app.html}"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+<title>Quản lý phòng</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-8">
+						<h4 class="card-title mb-0">Quản lý phòng</h4>
+					</div>
+					<div class="col-4 text-right">
+						<a th:href="@{/admin/rooms/create}" class="btn btn-primary btn-sm"><i
+							class="fas fa-plus"></i> Tạo mới</a>
+					</div>
+				</div>
+
+				<form th:action="@{/admin/rooms}" method="GET"
+					class="form-inline mt-2">
+					<div class="form-group">
+						<input type="text" name="searchText" id="searchText"
+							class="form-control" th:value="${searchText}"
+							placeholder="Nhập tên tìm kiếm...">
+					</div>
+
+					<button type="submit" class="btn btn-primary btn-same-select ml-2">Tìm
+						kiếm</button>
+				</form>
+
+				<div class="mt-4">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<td><strong>STT</strong></td>
+									<td><strong>Hình ảnh</strong></td>
+									<td><strong>Tên</strong></td>
+									<td><strong>Loại phòng</strong></td>
+									<td><strong>Giá phòng / Ngày</strong></td>
+									<td><strong>Hành động</strong></td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="room : ${rooms.page}">
+									<td th:text="${room.id}"></td>
+									<td class="col-md-3"><img class="w-50 p-3"
+										th:src="${room.image}"></td>
+									<td><a th:href="@{'/rooms/'+ ${room.id}}" th:text="${room.name}"></a></td>
+									<td th:text="${room.roomType}"></td>
+									<td th:text="${room.price} + vnđ"></td>
+									<!-- <td
+										th:text="${#temporals.format(room.createdAt, 'dd-MM-yyyy')}"></td> -->
+									<td>
+										<div class="btn-group btn-group-sm" role="group"
+											aria-label="Hành động">
+											<a th:href="@{/admin/rooms/edit/{id}(id=${room.id})}"
+												data-toggle="tooltip" data-placement="top" title="Edit"
+												class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+											<a style="margin-left: 2px;" data-toggle="modal"
+												th:attr="data-target=${'#deleteModal' + room.id}"
+												class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i>
+											</a>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="modal fade" th:each="room : ${rooms.page}"
+							th:attr="id=${'deleteModal' + room.id}" tabindex="-1"
+							role="dialog" aria-labelledby="exampleModalLabel"
+							aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Modal</h5>
+										<button class="close" type="button" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">×</span>
+										</button>
+									</div>
+									<span class="modal-body"
+										th:text="'Bạn có muốn xóa phòng ' + ${room.name} + '?'"></span>
+									<div class="modal-footer">
+										<button class="btn btn-secondary" type="button"
+											data-dismiss="modal">Hủy</button>
+										<a class="btn btn-primary"
+											th:href="@{/admin/rooms/delete/{id}(id=${room.id})}">Xác nhận</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="d-flex justify-content-end">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination text-right"
+								th:if="${rooms.page.totalPages > 0}">
+								<li class="page-item"
+									th:classappend="${!rooms.paging.isPrevEnabled()? 'disabled' : ''}">
+									<a class="page-link"
+									th:href="@{'rooms?current=' + ${rooms.paging.current - 1}}"
+									tabindex="-1">Trước</a>
+								</li>
+								<th:block th:each="item : ${rooms.paging.getItems()}">
+									<li class="page-item"
+										th:classappend="${item.index == rooms.paging.current? 'active' : ''}"
+										th:if="${item.pageItemType.name() == 'PAGE'}"><a
+										class="page-link"
+										th:href="@{'rooms?current=' + ${item.index}}"
+										th:text="${item.index}"></a></li>
+									<li class="page-item disabled"
+										th:if="${item.pageItemType.name() == 'DOTS'}"><a
+										class="page-link" href="#">...</a></li>
+								</th:block>
+								<li class="page-item"
+									th:classappend="${!rooms.paging.isNextEnabled()? 'disabled' : ''}">
+									<a class="page-link"
+									th:href="@{'rooms?current=' + ${rooms.paging.current + 1}}">Tiếp</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

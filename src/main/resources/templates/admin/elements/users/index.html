@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/app.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <title>Quản lý người dùng hệ thống</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-8">
+                    <h4 class="card-title mb-0">
+                        Quản lý người dùng
+                    </h4>
+                </div>
+                <div class="col-4 text-right">
+                    <a th:href="@{/admin/users/create}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tạo
+                        mới</a>
+                </div>
+            </div>
+
+            <form th:action="@{/admin/users}" method="GET" class="form-inline mt-2">
+                <div class="form-group">
+                    <input type="text" name="searchText" id="searchText" class="form-control" th:value="${searchText}" placeholder="Nhập tên tìm kiếm...">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-same-select ml-2">Tìm kiếm</button>
+            </form>
+
+            <div class="mt-4">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <td><strong>STT</strong></td>
+                            <td><strong>Tên</strong></td>
+                            <td><strong>Username</strong></td>
+                            <td><strong>Address</strong></td>
+                            <td><strong>Email</strong></td>
+                            <td><strong>Ngày sinh</strong></td>
+                            <td><strong>Trạng thái</strong></td>
+                            <td><strong>Hành động</strong></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${users.page}">
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.name}"></td>
+                            <td th:text="${user.username}"></td>
+                            <td th:text="${user.address}"></td>
+                            <td th:text="${user.email}"></td>
+                            <td th:text="${#dates.format(user.birthday, 'dd-MM-yyyy')}"></td>
+                            <td>
+                                <span th:if="${user.enabled}" class="badge badge-success">
+                                        Hoạt động
+                                </span>
+                                <span th:unless="${user.enabled}" class="badge badge-success">Tạm khóa</span>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Hành động">
+                                    <a th:href="@{/admin/users/{id}(id=${user.id})}" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a th:href="@{/admin/users/delete/{id}(id=${user.id})}"
+                                       class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination text-right" th:if="${users.page.totalPages > 0}">
+                            <li class="page-item"
+                                th:classappend="${!users.paging.isPrevEnabled()? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{'/admin/users/?current=' + ${users.paging.current - 1}}"
+                                   tabindex="-1">Trước</a>
+                            </li>
+                            <th:block th:each="item : ${users.paging.getItems()}">
+                                <li class="page-item"
+                                    th:classappend="${item.index == users.paging.current? 'active' : ''}"
+                                    th:if="${item.pageItemType.name() == 'PAGE'}"><a
+                                        class="page-link" th:href="@{'/admin/users/?current=' + ${item.index}}"
+                                        th:text="${item.index}"></a></li>
+                                <li class="page-item disabled"
+                                    th:if="${item.pageItemType.name() == 'DOTS'}"><a
+                                        class="page-link" href="#">...</a></li>
+                            </th:block>
+                            <li class="page-item"
+                                th:classappend="${!users.paging.isNextEnabled()? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{'/admin/users/?current=' + ${users.paging.current + 1}}">Tiếp</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

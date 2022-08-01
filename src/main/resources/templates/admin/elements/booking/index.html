@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layouts/app.html}"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+<title>Quản lý phòng</title>
+<style type="text/css">
+.modal {
+	transform: translate(-50%, -50%);
+	position: absolute;
+	float: left;
+	left: 50%;
+	top: 50%;
+}
+.modal-header {
+	background-color: #337AB7;
+	padding: 16px 16px;
+	color: #FFF;
+	border-bottom: 2px dashed #337AB7;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-8">
+						<h4 class="card-title mb-0">Quản lý phòng</h4>
+					</div>
+					<div class="col-4 text-right">
+						<a th:href="@{/admin/booking/create}"
+							class="btn btn-primary btn-sm"><i class="fas fa-plus"></i>
+							Tạo mới</a>
+					</div>
+				</div>
+
+				<form th:action="@{/admin/booking}" method="GET"
+					class="form-inline mt-2">
+					<div class="form-group">
+						<input type="text" name="searchText" id="searchText"
+							class="form-control" th:value="${searchText}"
+							placeholder="Nhập tên tìm kiếm...">
+					</div>
+
+					<button type="submit" class="btn btn-primary btn-same-select ml-2">Tìm
+						kiếm</button>
+				</form>
+
+				<div class="mt-4">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<td><strong>STT</strong></td>
+									<td><strong>Tên</strong></td>
+									<td><strong>Email</strong></td>
+									<td><strong>Ngày nhập phòng</strong></td>
+									<td><strong>Ngày trả phòng</strong></td>
+									<td><strong>Loại phòng </strong></td>
+									<td><strong>Số phòng </strong></td>
+									<td><strong>Tiền cần thanh toán</strong></td>
+									<td><strong>Trạng thái</strong></td>
+									<td><strong>Trạng thái thanh toán</strong></td>
+									<td><strong>Hành động</strong></td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="b : ${bookings.page}">
+									<td th:text="${b.id}"></td>
+									<td><a style="margin-left: 2px;" data-toggle="modal"
+										th:attr="data-target=${'#detailModelCustomer' + b.id}"
+										class="btn btn-info btn-sm" th:text="${b.name}"></a></td>
+									<!-- <td><a th:href="@{/admin/customers}" th:text="${b.name}"></a></td> -->
+									<td th:text="${b.email}"></td>
+									<td th:text="${#dates.format(b.dateCheckin, 'dd-MM-yyyy')}"></td>
+									<td th:text="${#dates.format(b.dateCheckout, 'dd-MM-yyyy')}"></td>
+									<td th:text="${b.roomType}"></td>
+									<td th:if="${b.room != null}"><a
+										th:href="@{'/rooms/'+ ${b.room.id}}" th:text="${b.room.name}"></a></td>
+									<td th:if="${b.room == null}"></td>
+									<td
+										th:text="${#numbers.formatDecimal(b.price, 0, 'COMMA', 0, 'POINT')} + ' vnđ'"></td>
+									<td th:text="${b.status}"></td>
+									<td th:text="${b.payment}"></td>
+									<!-- Button trigger modal -->
+									<td>
+										<div class="btn-group btn-group-sm" role="group"
+											aria-label="Hành động">
+											<a th:href="@{'/admin/booking/edit/'+ ${b.id}}"
+												data-toggle="tooltip" data-placement="top" title="Edit"
+												class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+											<a style="margin-left: 2px;" data-toggle="modal"
+												th:attr="data-target=${'#deleteModal' + b.id}"
+												class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i>
+											</a>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="modal fade" th:each="booking : ${bookings.page}"
+							th:attr="id=${'deleteModal' + booking.id}" tabindex="-1"
+							role="dialog" aria-labelledby="exampleModalLabel"
+							aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Modal</h5>
+										<button class="close" type="button" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">×</span>
+										</button>
+									</div>
+									<span class="modal-body"
+										th:text="'Bạn có muốn xóa đơn hàng ' + ${booking.name} + '?'"></span>
+									<div class="modal-footer">
+										<button class="btn btn-secondary" type="button"
+											data-dismiss="modal">Hủy</button>
+										<a class="btn btn-primary"
+											th:href="@{'/admin/booking/delete/'+${booking.id}}">Xác
+											nhận</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal fade" th:each="booking : ${bookings.page}"
+							th:attr="id=${'detailModelCustomer' + booking.id}" tabindex="-1"
+							role="dialog" aria-labelledby="exampleModalLabel"
+							aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Thông tin
+											khách hàng [[${booking.name}]]</h5>
+										<button class="close" type="button" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">×</span>
+										</button>
+									</div>
+									<div class="container mt-2">
+										<div class="table-responsive">
+											<table class="table table-bordered border-primary">
+												<tbody th:if="${booking.customer != null}">
+													<tr>
+														<th scope="row" class="p-1">Chủ phòng:</th>
+														<td class="p-1">[[${booking.name}]]</td>
+													</tr>
+													<tr>
+														<th scope="row" class="p-1">Địa chỉ:</th>
+														<td class="p-1">[[${booking.customer.address}]]</td>
+													</tr>
+													<tr>
+														<th scope="row" class="p-1">Số điện thoại:</th>
+														<td class="p-1">[[${booking.customer.phoneNumber}]]</td>
+													</tr>
+													<tr>
+														<th scope="row" class="p-1">Email:</th>
+														<td class="p-1">[[${booking.customer.email}]]</td>
+													</tr>
+													<tr>
+														<th scope="row" class="p-1">Trạng thái:</th>
+														<td class="p-1">[[${booking.status}]]</td>
+													</tr>
+													<tr>
+														<th scope="row" class="p-1">Trạng thái thanh toán:</th>
+														<td class="p-1">[[${booking.payment}]]</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button class="btn btn-secondary" type="button"
+											data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="d-flex justify-content-end">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination text-right"
+								th:if="${bookings.page.totalPages > 0}">
+								<li class="page-item"
+									th:classappend="${!bookings.paging.isPrevEnabled()? 'disabled' : ''}">
+									<a class="page-link"
+									th:href="@{'/admin/booking?current=' + ${bookings.paging.current - 1}}"
+									tabindex="-1">Trước</a>
+								</li>
+								<th:block th:each="item : ${bookings.paging.getItems()}">
+									<li class="page-item"
+										th:classappend="${item.index == bookings.paging.current? 'active' : ''}"
+										th:if="${item.pageItemType.name() == 'PAGE'}"><a
+										class="page-link"
+										th:href="@{'/admin/booking?current=' + ${item.index}}"
+										th:text="${item.index}"></a></li>
+									<li class="page-item disabled"
+										th:if="${item.pageItemType.name() == 'DOTS'}"><a
+										class="page-link" href="#">...</a></li>
+								</th:block>
+								<li class="page-item"
+									th:classappend="${!bookings.paging.isNextEnabled()? 'disabled' : ''}">
+									<a class="page-link"
+									th:href="@{'/admin/booking?current=' + ${bookings.paging.current + 1}}">Tiếp</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{atoli/layouts/app.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang chủ</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="inner-banner inner-bg3">
+        <div class="container">
+            <div class="inner-title">
+                <ul>
+                    <li>
+                        <a th:href="@{/}">Home</a>
+                    </li>
+                    <li><i class="bx bx-chevron-right"></i></li>
+                    <li>Tin tức</li>
+                </ul>
+                <h3>Chi tiết tin tức</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="blog-details-area pt-100 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="blog-article">
+                        <div class="blog-article-img">
+                            <img th:src="${blogDetail.image}" alt="Images" />
+                        </div>
+                        <div class="blog-article-title">
+                            <h2 th:text="${blogDetail.title}"></h2>
+                            <ul>
+                                <li th:text="${blogDetail.subTitle}">
+                                    <i class="bx bx-user"></i>
+                                </li>
+                                <li
+                                        th:text="${#temporals.format(blogDetail.getCreatedAt(),'EEE, d MMM yyyy')}"
+                                >
+                                    <i class="bx bx-calendar"></i>
+                                </li>
+                            </ul>
+                        </div>
+                        <th:block th:utext="${blogDetail.description}">
+
+                        </th:block>
+                        <div class="comments-wrap">
+                            <h3 class="title">Bình luận</h3>
+                            <ul>
+                                <th:block th:if="${commentByBlog.size() > 0 }" th:each="i : ${commentByBlog}">
+                                    <li>
+                                        <img src="/file/user/user.jpg" alt="Image" />
+                                        <h3 th:text="${i.name}"></h3>
+                                        <span
+                                                th:text="${#temporals.format(i.created,'EEE, d MMM yyyy')}"
+                                        ></span>
+                                        <p th:text="${i.message}">
+                                        </p>
+                                        <a href="#"> Trả lời</a>
+                                    </li>
+                                </th:block>
+
+                                <!--<li>
+                                    <img src="assets/img/blog/blog-profile2.jpg" alt="Image" />
+                                    <h3>Mike Thomas</h3>
+                                    <span>October 14, 2020, 11:30 AM</span>
+                                    <p>
+                                        Engineering requires many building blocks and tools. To
+                                        produce real world results & one must mathematics and
+                                        sciences to tangible problems and we are one of the best
+                                        company in the world.
+                                    </p>
+                                    <a href="#"> Reply</a>
+                                </li>-->
+                            </ul>
+                        </div>
+                        <div class="comments-form">
+                            <div class="contact-form">
+                                <h2>Để lại bình luận</h2>
+                                <form th:action="@{/blog/comments}" method="post" class="form" th:object="${comment}">
+                                    <div class="row">
+                                        <div style="display: none" class="form-group">
+                                            <input th:value="${blogDetail.id}" class="form-control" th:text="${blogDetail.id}" name="blog_id" id="blog_id">
+                                        </div>
+                                        <div class="col-lg-6 col-sm-6">
+                                            <div class="form-group">
+
+                                                <input
+                                                        th:value="${comment.name}"
+                                                        required
+                                                        th:field="*{name}"
+                                                        type="text"
+                                                        name="name"
+                                                        id="name"
+                                                        class="form-control"
+
+                                                        data-error="Tên không được để trống"
+                                                        placeholder="Nhập tên..."
+                                                />
+                                                <span class="text-danger"
+                                                      th:if="${#fields.hasErrors('name')}"
+                                                      th:errors="*{name}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-6">
+                                            <div class="form-group">
+
+                                                <input
+                                                        required
+                                                        th:value="${comment.email}"
+                                                        th:field="*{email}"
+                                                        type="email"
+                                                        name="email"
+                                                        id="email"
+                                                        class="form-control"
+                                                        data-error="Không được để trống email"
+                                                        placeholder="Nhập email..."
+                                                />
+                                                <span class="text-danger"
+                                                      th:if="${#fields.hasErrors('email')}"
+                                                      th:errors="*{email}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-sm-12">
+                                            <div class="form-group">
+                                                <input
+                                                        required
+                                                        th:value="${comment.phone}"
+                                                        th:field="*{phone}"
+                                                        type="text"
+                                                        name="phone"
+                                                        class="form-control"
+                                                        data-error="Số điện thoại không được để trống"
+                                                        placeholder="Nhập số điện thoại..."
+                                                />
+                                                <span class="text-danger"
+                                                      th:if="${#fields.hasErrors('phone')}"
+                                                      th:errors="*{phone}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="form-group">
+                                              <textarea
+                                                      th:value="${comment.message}"
+                                                      th:field="*{message}"
+                                                      name="message"
+                                                      class="form-control"
+                                                      id="message"
+                                                      cols="30"
+                                                      rows="8"
+                                                      required
+                                                      data-error="Nội dung email không được để trống"
+                                                      placeholder=" nội dung bình luận"
+                                              ></textarea>
+                                                <span class="text-danger"
+                                                      th:if="${#fields.hasErrors('message')}"
+                                                      th:errors="*{message}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12">
+                                            <button type="submit" class="default-btn btn-bg-three">
+                                                Bình luận
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="side-bar-wrap">
+                        <div class="search-widget">
+                            <form class="search-form">
+                                <input
+                                        type="search"
+                                        class="form-control"
+                                        placeholder="Tìm kiếm..."
+                                />
+                                <button type="submit">
+                                    <i class="bx bx-search"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="side-bar-widget">
+                            <h3 class="title">Bài viết liên quan</h3>
+                            <div class="widget-popular-post">
+                                <th:block th:if="${blogs.page.totalPages > 0}">
+                                    <article class="item" th:each="blog : ${blogs.page}">
+                                        <a th:href="${'/blog/' + blog.id}" class="thumb">
+                                            <span class="full-image cover bg1" role="img"></span>
+                                        </a>
+                                        <div class="info">
+                                            <h4 class="title-text">
+                                                <a th:href="${'/blog/' + blog.id}" th:text="${blog.title}">
+                                                </a>
+                                            </h4>
+<!--                                            <ul>-->
+<!--                                                <li>-->
+<!--                                                    <i class="bx bx-user"></i>-->
+<!--                                                    29K-->
+<!--                                                </li>-->
+<!--                                                <li>-->
+<!--                                                    <i class="bx bx-message-square-detail"></i>-->
+<!--                                                    15K-->
+<!--                                                </li>-->
+<!--                                            </ul>-->
+                                        </div>
+                                    </article>
+                                </th:block>
+                            </div>
+                        </div>
+<!--                        <div class="side-bar-widget">-->
+<!--                            <h3 class="title">Tags</h3>-->
+<!--                            <ul class="side-bar-widget-tag">-->
+<!--                                <li><a href="#">Hotel</a></li>-->
+<!--                                <li><a href="#">Booking</a></li>-->
+<!--                                <li><a href="#">Luxury</a></li>-->
+<!--                                <li><a href="#">Beach</a></li>-->
+<!--                                <li><a href="#">Resorts</a></li>-->
+<!--                                <li><a href="#">Room</a></li>-->
+<!--                                <li><a href="#">Single</a></li>-->
+<!--                                <li><a href="#">Family</a></li>-->
+<!--                                <li><a href="#">Sea View</a></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

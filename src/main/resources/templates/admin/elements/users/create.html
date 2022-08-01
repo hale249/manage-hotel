@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/app.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <title>Tạo mới người dùng</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="card">
+        <form th:action="@{/admin/users/create}" th:object="${user}" method="post" class="form"
+              enctype="multipart/form-data">
+            <div class="card-body">
+                <h4 class="card-title mb-0">
+                    Nguời dùng
+                    <small class="text-muted">Tạo mới</small>
+                </h4>
+                <hr>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="name">Họ</label>
+
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Nhập tên...">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="name">Địa chỉ</label>
+
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="address" th:field="*{address}" placeholder="Nhập địa chỉ...">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="email">Email</label>
+
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="email" th:classappend="${#fields.hasErrors('username')} ? 'was-validated' : ''" th:field="*{email}" placeholder="Nhập email...">
+                        <p class="text-danger" th:if="${#fields.hasErrors('email')}"
+                           th:errors="*{email}"></p>
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="username">Tài khoản</label>
+
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('username')} ? 'was-validated' : ''" id="username" th:field="*{username}" placeholder="Nhập username...">
+                        <p class="text-danger" th:if="${#fields.hasErrors('username')}"
+                           th:errors="*{username}"></p>
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="password">Mật khẩu</label>
+
+                    <div class="col-md-10">
+                        <input type="password" class="form-control" id="password" th:classappend="${#fields.hasErrors('username')} ? 'was-validated' : ''" th:field="*{password}" placeholder="Nhập mật khẩu...">
+                        <p class="text-danger" th:if="${#fields.hasErrors('password')}"
+                           th:errors="*{password}"></p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col">
+                        <a th:href="@{/admin/users}" class="btn btn-danger btn-sm">Trở lại</a>
+                    </div>
+
+                    <div class="col text-right">
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Lưu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/app.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <title>Tạo mới bài viết</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="card">
+        <form th:action="@{/admin/blog/create}" th:object="${blog}" method="post" class="form"
+              enctype="multipart/form-data">
+            <div class="card-body">
+                <h4 class="card-title mb-0">
+                    Bài viết
+                    <small class="text-muted">Tạo mới</small>
+                </h4>
+                <hr>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="title">Tiêu đề</label>
+
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="title" th:classappend="${#fields.hasErrors('title')} ? 'was-validated' : ''" th:field="*{title}" placeholder="Nhập tiêu đề...">
+                        <p class="text-danger" th:if="${#fields.hasErrors('title')}"
+                           th:errors="*{title}"></p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="subTitle">Sub tiêu đề</label>
+
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="subTitle" th:classappend="${#fields.hasErrors('subTitle')} ? 'was-validated' : ''" th:field="*{subTitle}" placeholder="Nhập sub tiêu đề...">
+                        <p class="text-danger" th:if="${#fields.hasErrors('subTitle')}"
+                           th:errors="*{subTitle}"></p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="image">Tải hình ảnh</label>
+
+                    <div class="col-md-10">
+                        <input type="file" id="image" name="image" th:field="*{image}" accept="image/png, image/jpeg" placeholder="Tải hình ảnh lên...">
+                        <p class="text-danger" th:if="${#fields.hasErrors('image')}"
+                           th:errors="*{image}"></p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="status">Trạng thái</label>
+
+                    <div class="col-md-10">
+                        <input type="checkbox" th:field="*{status}" id="status" data-toggle="toggle" data-offstyle="outline-secondary"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+<!--                    <label class="col-md-2 form-control-label" for="description">Mô tả</label>-->
+
+<!--                    <div class="col-md-10">-->
+<!--                        <input class="form-control" name="description" th:classappend="${#fields.hasErrors('description')} ? 'was-validated' : ''" th:field="*{description}" id="description" placeholder="Nhập nội dung..." />-->
+<!--                        <p class="text-danger" th:if="${#fields.hasErrors('description')}"-->
+<!--                           th:errors="*{description}"></p>-->
+
+<!--                    </div>-->
+
+                    <label class="col-md-2 form-control-label" for="descriptionBlog">Nội dung</label>
+
+                    <div class="col-md-10">
+                        <textarea class="form-control" id="descriptionBlog" th:classappend="${#fields.hasErrors('description')} ? 'was-validated' : ''" th:field="*{description}" placeholder="Nội dung mô tả..."> </textarea>
+                        <p class="text-danger" th:if="${#fields.hasErrors('description')}"
+                           th:errors="*{description}"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col">
+                        <a th:href="@{/admin/blog}" class="btn btn-danger btn-sm">Trở lại</a>
+                    </div>
+
+                    <div class="col text-right">
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Lưu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+    <script src="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace( 'description' );
+    </script>
+</th:block>
+</body>
+</html>

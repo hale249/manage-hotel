@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{atoli/layouts/app.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <meta charset="UTF-8">
+    <title>Liên hệ</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <div class="inner-banner inner-bg2">
+        <div class="container">
+            <div class="inner-title">
+                <ul>
+                    <li>
+                        <a th:href="@{/}">Trang chủ</a>
+                    </li>
+                    <li><i class="bx bx-chevron-right"></i></li>
+                    <li>Liên hệ</li>
+                </ul>
+                <h3>Liên hệ</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-area pt-100 pb-70">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="contact-content">
+                        <div class="section-title">
+                            <h2>Hãy bắt đầu cung cấp cho chúng tôi một tin nhắn và liên hệ với chúng tôi</h2>
+                        </div>
+                        <div class="contact-img">
+                            <img th:src="@{/plugins/atoli/assets/img/contact/contact-img1.jpg}" alt="Images"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="contact-form">
+                        <form th:action="@{/contact}" method="post" class="form" th:object="${contact}" >
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <input
+                                                th:value="${contact.name}"
+                                                th:fields="*{name}"
+                                                type="text"
+                                                name="name"
+                                                id="name"
+                                                class="form-control"
+                                                required
+                                                data-error="Vui lòng nhập tên"
+                                                placeholder="Name"
+                                        />
+                                        <span class="text-danger"
+                                              th:if="${#fields.hasErrors('name')}"
+                                              th:errors="*{name}"></span>
+                                       <!-- <div class="help-block with-errors"></div>-->
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+
+                                        <input
+                                                th:value="${contact.email}"
+                                                th:fields="*{email}"
+                                                type="email"
+                                                name="email"
+                                                id="email"
+                                                class="form-control"
+                                                required
+                                                data-error="Vui lòng nhập email"
+                                                placeholder="Email"
+                                        />
+                                        <!--<div class="help-block with-errors"></div>-->
+                                        <span class="text-danger"
+                                              th:if="${#fields.hasErrors('email')}"
+                                              th:errors="*{email}"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+
+                                        <input
+                                                th:value="${contact.phone}"
+                                                th:fields="*{phone}"
+                                                type="text"
+                                                name="phone_number"
+                                                id="phone_number"
+                                                required
+                                                data-error="Vui lòng nhập số điện thoại"
+                                                class="form-control"
+                                                placeholder="Phone"
+                                        />
+                                        <span class="text-danger"
+                                              th:if="${#fields.hasErrors('phone')}"
+                                              th:errors="*{phone}"></span>
+<!--                                        <div class="help-block with-errors"></div>-->
+                                    </div>
+                                </div>
+<!--                                <div class="col-lg-6 col-sm-6">
+                                    <div class="form-group">
+                                        <input
+                                                type="text"
+                                                name="msg_subject"
+                                                id="msg_subject"
+                                                class="form-control"
+                                                required
+                                                data-error="Vui lòng nhâp tên"
+                                                placeholder="Nhập tên"
+                                        />
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>-->
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+
+                                          <textarea
+                                                  th:value="${contact.message}"
+                                                  th:fields="*{message}"
+                                                  name="message"
+                                                  class="form-control"
+                                                  id="message"
+                                                  cols="30"
+                                                  rows="8"
+                                                  required
+                                                  data-error="Write your message"
+                                                  placeholder="Your Message"
+                                          ></textarea>
+                                        <span class="text-danger"
+                                              th:if="${#fields.hasErrors('message')}"
+                                              th:errors="*{message}"></span>
+                                        <!--<div class="help-block with-errors"></div>-->
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group checkbox-option">
+                                        <input type="checkbox" id="chb2"/>
+                                        <p>
+                                            Chấp thuận
+                                            <a th:href="@{/}">Điều khoản & điều kiện</a>
+                                            và <a th:href="@{/}">Chính sách bảo mật.</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <button type="submit" class="default-btn btn-bg-three">
+                                        Gửi tin nhắn
+                                    </button>
+                                    <div id="msgSubmit" class="h3 text-center hidden"></div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-another pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="contact-another-content">
+                        <div class="section-title">
+                            <h2>Thông tin liên hệ</h2>
+                            <p>
+                                Chúng tôi là một trong những đại lý tốt nhất và chúng tôi có thể dễ dàng tạo ký hợp đồng
+                                với chúng tôi bất cứ lúc nào về các chi tiết dưới đây.
+                            </p>
+                        </div>
+                        <div class="contact-item">
+                            <ul>
+                                <li>
+                                    <i class="bx bx-home-alt"></i>
+                                    <div class="content">
+                                        <span>14 Cổ nhuế, Bắc Từ Liêm, Hà Nội</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="contact-another-img">
+                        <img th:src="@{/plugins/atoli/assets/img/contact/contact-img2.jpg}" alt="Images"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="map-area">
+        <div class="container-fluid m-0 p-0">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.3260961697774!2d105.78048631540393!3d21.05963408598165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab2aafbdd153%3A0xa40f610ab1c866ee!2zMTQgxJAuIEPhu5UgTmh14bq_LCBD4buVIE5odeG6vywgQuG6r2MgVOG7qyBMacOqbSwgSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1654608958762!5m2!1svi!2s"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

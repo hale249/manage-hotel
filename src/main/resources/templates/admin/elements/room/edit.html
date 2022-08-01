@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/app.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo mới lịch</title>
+
+    <th:block layout:fragment="css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="card">
+        <form th:action="@{/admin/rooms/edit}" method="post" class="form" th:object="${room}"
+              enctype="multipart/form-data">
+            <div class="card-body">
+                <h4 class="card-title mb-0">
+                    Quản lý phòng
+                    <small class="text-muted">Cập nhât mới</small>
+                </h4>
+                <hr>
+
+                <div class="form-group row">
+                    <div style="display: none" class="form-group">
+                        <input th:value="${room.id}" class="form-control" th:text="${room.id}" name="id" id="id">
+                    </div>
+                    <label class="col-md-2 form-control-label" for="title">Tên phòng</label>
+
+                    <div class="col-md-10">
+                        <input th:value="${room.title}" th:field="*{title}" type="text" class="form-control" id="title" placeholder="Nhập tiêu đề...">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="price">Giá</label>
+
+                    <div class="col-md-10">
+                        <input th:value="${room.price}" th:field="*{price}" type="text" class="form-control" id="price">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="price">Số người tối đa</label>
+
+                    <div class="col-md-10">
+                        <input th:value="${room.numberAmount}" th:field="*{numberAmount}" type="number" class="form-control" id="numberAmount">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="price">Kích thước phòng</label>
+
+                    <div class="col-md-10">
+                        <input th:value="${room.roomSize}" th:field="*{roomSize}" type="number" class="form-control" id="roomSize">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="price">Vị trí</label>
+
+                    <div class="col-md-10">
+                        <input th:value="${room.location}" th:field="*{location}" type="text" class="form-control" id="location">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="price">Kích thước giường ngủ</label>
+
+                    <div class="col-md-10">
+                        <select th:field="*{bedSize}" class="form-control js-example-tokenizer" id="bedSize">
+                            <option value="Kingsize">Kingsize </option>
+                            <option value="Mediumsize">Mediumsize</option>
+                            <option value="Smallsize">Smallsize</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="unit">Đơn vị</label>
+
+                    <div class="col-md-10">
+                        <input th:value="${room.unit}" th:field="*{unit}" type="text" class="form-control" id="unit">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="image">Hình ảnh chính</label>
+
+                    <div class="col-md-10">
+                        <input th:field="*{image}" type="file" class="form-control" id="image">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="slider">Hình ảnh slider</label>
+
+                    <div class="col-md-10">
+                        <input th:field="*{imageSlider}" type="file" class="form-control" id="slider" multiple>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="tagSelect">Lại phòng</label>
+
+                    <div class="col-md-10">
+                        <select th:field="*{typeRoom}" class="form-control js-example-tokenizer" id="tagSelect">
+                            <option value="Cơ bản">Cơ bản</option>
+                            <option value="Cao cấp">Cao cấp</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="sub description">Mô tả ngắn gọn</label>
+
+                    <div class="col-md-10">
+                        <textarea th:value="${room.subDescription}" th:field="*{subDescription}" rows="2" class="form-control" id="subDescription"  placeholder="Nội dung mô tả..."> </textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="description">Mô tả</label>
+
+                    <div class="col-md-10">
+                        <textarea th:value="${room.description}" th:field="*{description}" rows="5" class="form-control" id="description"  placeholder="Nội dung mô tả..."> </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col">
+                        <a th:href="@{/admin/blog}" class="btn btn-danger btn-sm">Trở lại</a>
+                    </div>
+
+                    <div class="col text-right">
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Lưu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(".js-example-tokenizer").select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        })
+    </script>
+</th:block>
+</body>
+</html>

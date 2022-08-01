@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layouts/app.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo mới phòng</title>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+    <th:block layout:fragment="css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    </th:block>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
+
+<!--    <script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>-->
+
+
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="card">
+        <form th:action="@{/admin/rooms/create}" method="post" class="form" th:object="${room}"
+              enctype="multipart/form-data">
+            <div class="card-body">
+                <h4 class="card-title mb-0">
+                    Quản lý phòng
+                    <small class="text-muted">Tạo mới</small>
+                </h4>
+                <hr>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="title">Tên phòng</label>
+
+                    <div class="col-md-10">
+                        <input th:field="*{title}" type="text" class="form-control" id="title" placeholder="Nhập tên phòng...">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="price">Giá</label>
+
+                    <div class="col-md-10">
+                        <input th:field="*{price}" type="text" class="form-control" id="price">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="price">Số người tối đa</label>
+
+                    <div class="col-md-10">
+                        <input th:field="*{numberAmount}" type="number" class="form-control" id="numberAmount">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="price">Kích thước phòng</label>
+
+                    <div class="col-md-10">
+                        <input th:field="*{roomSize}" type="number" class="form-control" id="roomSize">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="price">Vị trí</label>
+
+                    <div class="col-md-10">
+                        <input th:field="*{location}" type="text" class="form-control" id="location">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="price">Kích thước giường ngủ</label>
+
+                    <div class="col-md-10">
+                        <select th:field="*{bedSize}" class="form-control js-example-tokenizer" id="bedSize">
+                            <option value="Smallsize">Nhỏ</option>
+                            <option value="Mediumsize">Trung bình</option>
+                            <option value="Kingsize">Cỡ lớn </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="unit">Đơn vị</label>
+
+                    <div class="col-md-10">
+                        <input th:field="*{unit}" type="text" class="form-control" id="unit">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="image">Hình ảnh chính</label>
+
+                    <div class="col-md-10">
+                        <input th:field="*{image}" type="file" class="form-control" id="image">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="slider">Hình ảnh slider</label>
+
+                    <div class="col-md-10">
+                        <input th:field="*{imageSlider}" type="file" class="form-control" id="slider" multiple>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="tagSelect">Lại phòng</label>
+
+                    <div class="col-md-10">
+                        <select th:field="*{typeRoom}" class="form-control js-example-tokenizer" id="tagSelect">
+                            <option value="Cơ bản">Cơ bản</option>
+                            <option value="Cao cấp">Cao cấp</option>
+                    </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label" for="description">Mô tả</label>
+
+                    <div class="col-md-10">
+                        <textarea th:field="*{description}" rows="10" class="form-control" id="description"  placeholder="Nội dung mô tả..."> </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col">
+                        <a th:href="@{/admin/blog}" class="btn btn-danger btn-sm">Trở lại</a>
+                    </div>
+
+                    <div class="col text-right">
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Lưu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<th:block layout:fragment="js">
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!--
+    <script type="text/javascript">
+        CKEDITOR.replace('description');
+
+    </script>
+-->
+    <script src="js/sf.js"></script>
+    <script src="js/tree-a.js"></script>
+    <script src="https://cdn.ckeditor.com/4.12.1/standard-all/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
+    <script src="../ckfinder.js"></script>
+<!--    <script>-->
+<!--        if ( typeof ClassicEditor !== 'undefined' ) {-->
+<!--            ClassicEditor-->
+<!--                .create( document.querySelector( '#description' ), {-->
+<!--                    ckfinder: {-->
+<!--                        // To avoid issues, set it to an absolute path that does not start with dots, e.g. '/ckfinder/core/php/(...)'-->
+<!--                        uploadUrl: '/ckfinder/connector?command=QuickUpload&type=Files&responseType=json'-->
+<!--                    },-->
+<!--                    toolbar: [ 'ckfinder', 'imageUpload', '|', 'heading', '|', 'bold', 'italic', '|', 'undo', 'redo' ]-->
+
+<!--                } )-->
+<!--                .then( function( editor ) {-->
+<!--                    // console.log( editor );-->
+<!--                } )-->
+<!--                .catch( function( error ) {-->
+<!--                    console.error( error );-->
+<!--                } );-->
+<!--        } else {-->
+<!--            document.getElementById( 'description' ).innerHTML =-->
+<!--                '<div class="tip-a tip-a-alert">This sample requires working Internet connection to load CKEditor 5 from CDN.</div>'-->
+<!--        }-->
+
+<!--        // Note: in this sample we use CKEditor with two extra plugins:-->
+<!--        // - uploadimage to support pasting and dragging images,-->
+<!--        // - image2 (instead of image) to provide images with captions.-->
+<!--        // Additionally, the CSS style for the editing area has been slightly modified to provide responsive images during editing.-->
+<!--        // All these modifications are not required by CKFinder, they just provide better user experience.-->
+<!--        if ( typeof CKEDITOR !== 'undefined' ) {-->
+<!--            CKEDITOR.disableAutoInline = true;-->
+<!--            CKEDITOR.addCss( 'img {max-width:100%; height: auto;}' );-->
+<!--            var editor = CKEDITOR.replace( 'editor2', {-->
+<!--                extraPlugins: 'uploadimage,image2',-->
+<!--                removePlugins: 'image',-->
+<!--                height:250-->
+<!--            } );-->
+<!--            CKFinder.setupCKEditor( editor );-->
+<!--        } else {-->
+<!--            document.getElementById( 'editor2' ).innerHTML =-->
+<!--                '<div class="tip-a tip-a-alert">This sample requires working Internet connection to load CKEditor 4 from CDN.</div>'-->
+<!--        }-->
+
+<!--    </script>-->
+</th:block>
+</body>
+
+</html>

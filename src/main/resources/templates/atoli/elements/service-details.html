@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{atoli/layouts/app.html}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang chủ</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="inner-banner inner-bg6">
+        <div class="container">
+            <div class="inner-title">
+                <ul>
+                    <li>
+                        <a th:href="@{/}">Trang chủ</a>
+                    </li>
+                    <li><i class="bx bx-chevron-right"></i></li>
+                    <li>Dịch vụ</li>
+                </ul>
+                <h3>Chi tiết dịch vụ</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="service-details-area pt-100 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="service-article">
+                        <div class="service-article-img">
+                            <img th:src="${'/file' + service.image}" alt="Images" width="936" height="561"/>
+                        </div>
+                        <div class="service-article-title">
+                            <h2 th:text="${service.title}"></h2>
+                        </div>
+                        <div class="service-article-content">
+                            <p th:utext="${service.content}">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="service-side-bar">
+                        <div class="search-widget">
+                            <form class="search-form">
+                                <input
+                                        type="search"
+                                        class="form-control"
+                                        placeholder="Tìm kiếm..."
+                                />
+                                <button type="submit">
+                                    <i class="bx bx-search"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="services-bar-widget">
+                            <h3 class="title">Dich vụ khác</h3>
+                            <div class="side-bar-categories">
+                                <ul>
+                                    <th:block th:if="${serviceRandoms.page.totalPages > 0}">
+                                        <li th:each="service : ${serviceRandoms.page}">
+                                            <a th:href="${'/services/' + service.id}" th:text="${service.title}"></a>
+                                        </li>
+                                    </th:block>
+                                </ul>
+                            </div>
+                        </div>
+<!--                        <div class="services-bar-widget">-->
+<!--                            <h3 class="title">Download Brochures</h3>-->
+<!--                            <div class="side-bar-list">-->
+<!--                                <ul>-->
+<!--                                    <li>-->
+<!--                                        <a href="#"-->
+<!--                                        >Pdf File (1) <i class="bx bxs-cloud-download"></i-->
+<!--                                        ></a>-->
+<!--                                    </li>-->
+<!--                                    <li>-->
+<!--                                        <a href="#"-->
+<!--                                        >Pdf File (2) <i class="bx bxs-cloud-download"></i-->
+<!--                                        ></a>-->
+<!--                                    </li>-->
+<!--                                    <li>-->
+<!--                                        <a href="#"-->
+<!--                                        >Pdf File (3) <i class="bx bxs-cloud-download"></i-->
+<!--                                        ></a>-->
+<!--                                    </li>-->
+<!--                                    <li>-->
+<!--                                        <a href="#"-->
+<!--                                        >Pdf File (4) <i class="bx bxs-cloud-download"></i-->
+<!--                                        ></a>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

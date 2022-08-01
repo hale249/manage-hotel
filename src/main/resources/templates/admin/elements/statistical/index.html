@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{admin/layouts/app.html}"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+<title>Quản lý phòng</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="card">
+			<div class="card-body" th:object="${statistical}">
+				<div class="row">
+					<div class="col-8">
+						<h4 class="card-title mb-0">Thống kê doanh thu</h4>
+					</div>
+				</div>
+
+				<form th:action="@{/admin/statistical}" method="GET"
+					class="form-inline mt-2">
+					<div class="form-group p-2">
+						<label>Từ ngày: </label> <input th:field="*{dateStart}"
+							type="date" required class="form-control m-2" />
+					</div>
+					<div class="form-group p-2">
+						<label>Đến ngày: </label> <input th:field="*{dateEnd}"
+							type="date" required class="form-control m-2" />
+					</div>
+
+					<button type="submit" class="btn btn-primary btn-same-select ml-2">Tìm
+						kiếm</button>
+				</form>
+
+				<div class="mt-4">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr class="text-center">
+									<td><strong>Số lượng Khách đặt phòng</strong></td>
+									<td><strong>Số lượng khách chốt phòng</strong></td>
+									<td><strong>Số lượng khách hủy phòng</strong></td>
+									<td><strong>Số lượng phòng cao cấp đã đặt</strong></td>
+									<td><strong>Số lượng phòng cơ bản đã đặt</strong></td>
+									<td><strong>Tổng doanh thu</strong></td>
+									<td><strong>Doanh thu phòng cao cấp</strong></td>
+									<td><strong>Doanh thu phòng cơ bản đã đặt</strong></td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="text-center">
+									<td th:text="*{countAllOrder}"></td>
+									<td th:text="*{countSuccOrder}" style="color: blue"></td>
+									<td th:text="*{countFaildOrder}" style="color: red"></td>
+									<td th:text="*{superiorRoom}"></td>
+									<td th:text="*{basicRoom}"></td>
+									<td
+										th:text="*{#numbers.formatDecimal(revenue, 0, 'COMMA', 0, 'POINT')} + ' vnđ'"></td>
+									<td
+										th:text="*{#numbers.formatDecimal(revenueSuperiorRoom, 0, 'COMMA', 0, 'POINT')} + ' vnđ'"></td>
+									<td
+										th:text="*{#numbers.formatDecimal(revenueBasicRoom, 0, 'COMMA', 0, 'POINT')} + ' vnđ'"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
